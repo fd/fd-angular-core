@@ -1,11 +1,11 @@
 /* */
-import $ from "jquery";
-import angular from "angular";
+import $ from 'jquery';
+import angular from 'angular';
 import {extendInjector} from './injector';
 import {console} from 'mr-util';
 
 // Base modules
-import "angular-ui-router";
+import 'angular-ui-router';
 
 import {buildUiRouterState, flattenUiRouterStates} from './State';
 
@@ -13,14 +13,14 @@ import {buildUiRouterState, flattenUiRouterStates} from './State';
 @var {ngModule} app
 */
 let appRootState = null;
-let appDeps = ["ui.router"];
-export var app = angular.module("app", appDeps);
+let appDeps = ['ui.router'];
+export var app = angular.module('app', appDeps);
 
 app.run(['$injector', function($injector) {
 	extendInjector($injector);
 }]);
 
-app.config(["$stateProvider", function($stateProvider) {
+app.config(['$stateProvider', function($stateProvider) {
 	if (!document.querySelector('[ui-view], ui-view')) {
 		console.warn('No root ui-view found!');
 	}
@@ -74,7 +74,7 @@ export function bootstrap(mainState, ...deps) {
 		return new Promise(function(resolve, reject){
 			$(() => {
 				try {
-					let injector = angular.bootstrap(document, ["app"]);
+					let injector = angular.bootstrap(document, ['app']);
 					extendInjector(injector);
 					resolve();
 				} catch(e) {

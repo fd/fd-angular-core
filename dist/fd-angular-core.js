@@ -264,6 +264,7 @@ var DEFAULT_SUFFIX = "Controller";
 @param {State[]}  [opts.children] - List of child states.
 @param {string}   [opts.controllerName] - The name of the controller as seen by angular.
 @param {Object}   [opts.resolve] - Any required resolved.
+@param {Object}   [opts.data] - Data to associate with this state.
 @param {Object}   [opts.views] - State views
 @param {string[]} [opts.aliases] - Aliases for the current state.
 
@@ -377,6 +378,14 @@ function State(opts) {
 			Object.assign(meta.state.resolve, superMeta.state.resolve);
 			if (opts.resolve) {
 				Object.assign(meta.state.resolve, opts.resolve);
+			}
+		}
+
+		meta.state.data = {};
+		if (opts.data !== false) {
+			Object.assign(meta.state.data, superMeta.state.data);
+			if (opts.data) {
+				Object.assign(meta.state.data, opts.data);
 			}
 		}
 	}
@@ -641,7 +650,8 @@ function buildUiRouterState(obj, options) {
 		abstract: meta.state.abstract,
 		children: children,
 		resolve: resolve,
-		views: views
+		views: views,
+		data: meta.state.data
 	};
 
 	return state;
@@ -885,22 +895,22 @@ function Redirect(stateName, stateParams) {
 
 },{"./Inject":3,"./State":5}],7:[function(require,module,exports){
 /* */
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
 	value: true
 });
 exports.includeModule = includeModule;
 exports.beforeBoot = beforeBoot;
 exports.bootstrap = bootstrap;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _jquery = require("jquery");
+var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _angular = require("angular");
+var _angular = require('angular');
 
 var _angular2 = _interopRequireDefault(_angular);
 
@@ -910,7 +920,7 @@ var _mrUtil = require('mr-util');
 
 // Base modules
 
-require("angular-ui-router");
+require('angular-ui-router');
 
 var _State = require('./State');
 
@@ -918,15 +928,15 @@ var _State = require('./State');
 @var {ngModule} app
 */
 var appRootState = null;
-var appDeps = ["ui.router"];
-var app = _angular2["default"].module("app", appDeps);
+var appDeps = ['ui.router'];
+var app = _angular2['default'].module('app', appDeps);
 
 exports.app = app;
 app.run(['$injector', function ($injector) {
 	(0, _injector.extendInjector)($injector);
 }]);
 
-app.config(["$stateProvider", function ($stateProvider) {
+app.config(['$stateProvider', function ($stateProvider) {
 	if (!document.querySelector('[ui-view], ui-view')) {
 		_mrUtil.console.warn('No root ui-view found!');
 	}
@@ -949,8 +959,8 @@ app.config(["$stateProvider", function ($stateProvider) {
 			_iteratorError = err;
 		} finally {
 			try {
-				if (!_iteratorNormalCompletion && _iterator["return"]) {
-					_iterator["return"]();
+				if (!_iteratorNormalCompletion && _iterator['return']) {
+					_iterator['return']();
 				}
 			} finally {
 				if (_didIteratorError) {
@@ -973,7 +983,7 @@ function includeModule(name) {
 /**
 @var {angular} ng
 */
-var ng = _angular2["default"];
+var ng = _angular2['default'];
 exports.ng = ng;
 var beforeBootPromiseGo = undefined;
 var beforeBootPromise = new Promise(function (resolve) {
@@ -1019,8 +1029,8 @@ function bootstrap(mainState) {
 		_iteratorError2 = err;
 	} finally {
 		try {
-			if (!_iteratorNormalCompletion2 && _iterator2["return"]) {
-				_iterator2["return"]();
+			if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+				_iterator2['return']();
 			}
 		} finally {
 			if (_didIteratorError2) {
@@ -1032,9 +1042,9 @@ function bootstrap(mainState) {
 	beforeBootPromiseGo();
 	return beforeBootPromise.then(function () {
 		return new Promise(function (resolve, reject) {
-			(0, _jquery2["default"])(function () {
+			(0, _jquery2['default'])(function () {
 				try {
-					var injector = _angular2["default"].bootstrap(document, ["app"]);
+					var injector = _angular2['default'].bootstrap(document, ['app']);
 					(0, _injector.extendInjector)(injector);
 					resolve();
 				} catch (e) {
@@ -1273,7 +1283,7 @@ function funcMeta(func) {
 		controller: null,
 		service: null,
 		state: null,
-		wrappers: null,
+		wrappers: [],
 		base: func,
 		top: func,
 		name: getName(),

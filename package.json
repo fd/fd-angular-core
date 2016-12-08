@@ -24,9 +24,9 @@
     "jsdoc": "^3.3.2"
   },
   "dependencies": {
-    "angular": "1.5.x",
-    "angular-ui-router": "0.3.x",
-    "jquery": "3.x.x",
+    "angular": "^1.5.9",
+    "angular-ui-router": "^0.3.2",
+    "jquery": "^2.2.4",
     "mr-util": "1.x.x"
   },
   "jspm": {
